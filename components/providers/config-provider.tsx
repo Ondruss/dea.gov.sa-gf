@@ -391,6 +391,20 @@ interface ConfigContextType {
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined)
 
+function getInitialConfig(): SiteConfig {
+  if (typeof window === "undefined") return defaultConfig
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      return { ...defaultConfig, ...parsed }
+    }
+  } catch (error) {
+    console.error("[v0] Failed to load config from localStorage:", error)
+  }
+  return defaultConfig
+}
+
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<SiteConfig>(defaultConfig)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -399,12 +413,14 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
+      console.log("[v0] Loading config from localStorage:", saved ? "found" : "not found")
       if (saved) {
         const parsed = JSON.parse(saved)
-        setConfig(prev => ({ ...prev, ...parsed }))
+        console.log("[v0] Parsed config:", parsed)
+        setConfig({ ...defaultConfig, ...parsed })
       }
     } catch (error) {
-      console.error("Failed to load config from localStorage:", error)
+      console.error("[v0] Failed to load config from localStorage:", error)
     }
     setIsLoaded(true)
   }, [])
@@ -413,9 +429,10 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isLoaded) {
       try {
+        console.log("[v0] Saving config to localStorage")
         localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
       } catch (error) {
-        console.error("Failed to save config to localStorage:", error)
+        console.error("[v0] Failed to save config to localStorage:", error)
       }
     }
   }, [config, isLoaded])
