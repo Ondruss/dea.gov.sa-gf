@@ -10,7 +10,7 @@ const sourceSans = Source_Sans_3({ subsets: ["latin"], weight: ["400", "600", "7
 
 export const metadata: Metadata = {
   title: 'United States Drug Enforcement Administration',
-  description: 'Official website of the United States Drug Enforcement Administration',
+  description: 'Official website of the San Andreas Drug Enforcement Administration',
   generator: 'v0.app',
   icons: {
     icon: [
