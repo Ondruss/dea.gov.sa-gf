@@ -14,7 +14,6 @@ export function GovBanner() {
         <div className="flex items-center gap-2 py-1">
           <img
             src="https://www.dea.gov/themes/flavours_base_uswds/images/icon-dot-gov.svg"
-            alt="U.S. flag"
             className="h-3 w-auto"
           />
           <span className="text-xs">{t("govBanner")}</span>

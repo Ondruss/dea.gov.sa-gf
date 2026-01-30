@@ -1,15 +1,15 @@
 export const translations = {
   en: {
     // Gov Banner
-    govBanner: "An official website of the United States government",
+    govBanner: "An official website of the San Andreas government",
     howYouKnow: "Here's how you know",
     govOfficial: "Official websites use .gov",
-    govOfficialDesc: "A .gov website belongs to an official government organization in the United States.",
+    govOfficialDesc: "A .gov website belongs to an official government organization in the San Andreas.",
     govSecure: "Secure .gov websites use HTTPS",
     govSecureDesc: "A lock or https:// means you've safely connected to the .gov website.",
     
     // Header
-    unitedStates: "United States",
+    sanandreas: "San Andreas",
     drugEnforcementAdmin: "Drug Enforcement Administration",
     getUpdates: "Get Updates",
     scamAlert: "Scam Alert",
