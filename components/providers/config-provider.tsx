@@ -1,6 +1,8 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+
+const STORAGE_KEY = "dea-site-config"
 
 export interface DrugStat {
   label: string
@@ -391,6 +393,32 @@ const ConfigContext = createContext<ConfigContextType | undefined>(undefined)
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<SiteConfig>(defaultConfig)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load config from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        setConfig(prev => ({ ...prev, ...parsed }))
+      }
+    } catch (error) {
+      console.error("Failed to load config from localStorage:", error)
+    }
+    setIsLoaded(true)
+  }, [])
+
+  // Save config to localStorage whenever it changes
+  useEffect(() => {
+    if (isLoaded) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
+      } catch (error) {
+        console.error("Failed to save config to localStorage:", error)
+      }
+    }
+  }, [config, isLoaded])
 
   const updateConfig = (newConfig: Partial<SiteConfig>) => {
     setConfig(prev => ({ ...prev, ...newConfig }))
